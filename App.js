@@ -11,6 +11,8 @@ export default function App() {
   const [coordinates, setCoordinates] = useState(null);
   const [apiKey, setApiKey] = useState('H0uu0ERanurZYJc3P4sOojfqajfGoGgo');
   const [currentLocation, setCurrentLocation] = useState(null);
+  const [mapRegion, setMapRegion] = useState(initial);
+
 
   useEffect(() => {
     const getPermissions = async () => {
@@ -38,6 +40,13 @@ export default function App() {
 
       if (results && results.lat && results.lng) {
         setCoordinates(results);
+
+        setMapRegion({
+          latitude: results.lat,
+          longitude: results.lng,
+          latitudeDelta: 0.0322,
+          longitudeDelta: 0.0221,
+        });
 
       } else {
         console.error('Problems with coordinates:', results);
@@ -68,8 +77,8 @@ export default function App() {
     <View style={styles.container}>
       <MapView
         style={styles.map}
-        initialRegion={initial}
-        region={initial}
+        initialRegion={mapRegion}
+        region={mapRegion}
         showsUserLocation={true}
       >
         {coordinates && (
